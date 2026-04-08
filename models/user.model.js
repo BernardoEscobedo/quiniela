@@ -7,7 +7,7 @@ const registrarUsuario = async ({nombre, apellido, correo, password_hash, id_rol
             VALUES ($1,$2,$3,$4,$5)
             RETURNING id_usuario, nombre, apellido, correo, password_hash, id_role
         `,
-        values: [nombre, apellido,, correo, password_hash, id_role]
+        values: [nombre, apellido, correo, password_hash, id_role]
     }
     const {rows} = await db.query(query)
     return rows[0]

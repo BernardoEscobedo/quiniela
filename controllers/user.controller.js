@@ -28,7 +28,7 @@ const registrarUsuario = async (req,res) =>{
             const hashedPassword = await bcrypt.hash(password_hash, salt)
 
             const usuarioNuevo = await userModel.registrarUsuario({nombre, apellido, correo, password_hash:hashedPassword, id_role})
-            const token = jwt.sign({email: usuarioNuevo.correo, role_id: usuarioNuevo.id_role},
+            const token = jwt.sign({correo: usuarioNuevo.correo, id_role: usuarioNuevo.id_role},
             process.env.JWT_SECRET,
             {
                 expiresIn:"1h"

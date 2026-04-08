@@ -3,7 +3,7 @@ import jwt from "jsonwebtoken"
 export const verifyToken = (req, res, next) => {
     let token = req.headers.authorization
 
-    if(!token || !token.startsWith('Bearer')){
+    if(!token || !token.startsWith('Bearer ')){
         return res.status(401).json({error: "Formato de token invalido"})
     }
 
