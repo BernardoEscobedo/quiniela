@@ -25,5 +25,15 @@ export const verifyToken = (req, res, next) => {
 }
 
 export const verifyAdmin = ( req,res,next ) => {
-    
+    if(req.id_role == 1){
+        return next()
+    }
+    return res.status(403).json({error:"Autorizado solo para usuario administrador"})
+}
+
+export const verifyParticipacion = (req, res, next) => {
+    if(req.id_role == 1 || req.id_role == 2){
+        return next()
+    }
+    return res.status(403).json({error:"Participante"})
 }
