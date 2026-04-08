@@ -22,4 +22,8 @@ export const verifyToken = (req, res, next) => {
         console.log(error)
         return res.status(400).json({error: "Token invalido"})
     }
-} 
+}
+
+export const verifyAdmin = ( req,res,next ) => {
+    
+}
