@@ -134,6 +134,21 @@ const listarUsuarios = async(req,res)=>{
     }
 }
 
+const entontrarPorId = async(req,res) => {
+    try {
+        const {id_usuario} = req.params
+        const usuario = await userModel.encontrarPorId(id_usuario)
+
+        return res.json({ok:true, msg: usuario})
+    } catch (error) {
+        console.log(error)
+        return res.status(500).json({
+            ok:false,
+            msg:'Error en el servidor'
+        })
+    }
+}
+
 const actualizarUsuario = async(req,res) => {
     try {
         const {id_usuario} = req.params
@@ -188,6 +203,7 @@ const actualizarUsuario = async(req,res) => {
 export const userController = {
     registrarUsuario,
     loginUsuario,
+    entontrarPorId,
     perfilUsuario,
     listarUsuarios,
     actualizarUsuario

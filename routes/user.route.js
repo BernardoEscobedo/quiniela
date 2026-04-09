@@ -9,6 +9,7 @@ router.get('/profile', verifyToken, userController.perfilUsuario)//ruta protegid
 
 //rutas para admin
 router.get('/usuarios', verifyToken, verifyAdmin, userController.listarUsuarios )
+router.get('/usuario/:id_usuario',verifyToken, userController.entontrarPorId)
 router.post('/registrarusuario', userController.registrarUsuario)
 router.put('/actualizarusuario/:id_usuario', verifyToken, verifyAdmin, userController.actualizarUsuario)
 
