@@ -106,6 +106,21 @@ select *from jornadas
 select *from resultados
 select *from pronosticos
 
+select
+e.nombre,
+g.nombre as grupo
+from equipos e 
+join grupos g on e.id_grupo = g.id_grupo
+
+SELECT
+e.nombre,
+g.nombre AS grupo
+FROM equipos e 
+JOIN grupos g ON e.id_grupo = g.id_grupo
+WHERE e.id_equipo = 1
+
+
+
 INSERT INTO pronosticos (id_usuario, id_partido, pronostico, goles_local, goles_visitante) VALUES (1,1,'L',2,1)
 INSERT INTO pronosticos (id_usuario, id_partido, pronostico) VALUES (2,1,'E')
 INSERT INTO pronosticos (id_usuario, id_partido, pronostico, goles_local, goles_visitante) VALUES (1,2,'V',0,1)
