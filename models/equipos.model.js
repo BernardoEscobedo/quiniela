@@ -43,8 +43,8 @@ const encontrarPorId = async (id_equipo) => {
     return rows[0]
 }
 
-const actualizarEquipo = async(id_usuario, updateData)=>{
-    const validFields = ['nombre','apellido', 'correo','password_hash', 'id_role'] // campos actualizables
+const actualizarEquipo = async(id_equipo, updateData)=>{
+    const validFields = ['nombre','id_grupo'] // campos actualizables
     const fieldsToUpdate ={}
 
     Object.keys(updateData).forEach(key=>{
@@ -62,13 +62,13 @@ const actualizarEquipo = async(id_usuario, updateData)=>{
      .join(', ');
 
      const values = Object.values(fieldsToUpdate)
-     values.push(id_usuario)
+     values.push(id_equipo)
 
      const query ={
         text:`
-        UPDATE usuarios
+        UPDATE equipos
         SET ${setClause}
-        WHERE id_usuario = $${values.length}
+        WHERE id_equipo = $${values.length}
         RETURNING *
         `,
         values: values
@@ -76,4 +76,57 @@ const actualizarEquipo = async(id_usuario, updateData)=>{
 
      const {rows} = await db.query(query)
      return rows[0]
+}
+
+const encontrarPorGrupo = async (id_equipo) => {
+    const query = {
+        text: `
+        SELECT
+        e.nombre,
+        g.nombre AS grupo
+        FROM equipos e 
+        JOIN grupos g ON e.id_grupo = g.id_grupo
+        WHERE e.id_grupo = $1
+        `,
+        values: [id_equipo]
+    }
+    const {rows} = await db.query(query)
+    return rows[0]
+}
+
+const tablaEquiposPorGrupo = async () => {
+    const query = {
+        text:`
+        SELECT
+        g.nombre AS grupo,
+        e.nombre AS equipo,
+        COUNT(*) pj,
+        SUM(CASE WHEN t.goles_favor > t.goles_contra THEN 1 ELSE 0 END) pg,
+        SUM(CASE WHEN t.goles_favor = t.goles_contra THEN 1 ELSE 0 END) pe,
+        SUM(CASE WHEN t.goles_favor < t.goles_contra THEN 1 ELSE 0 END) pp,
+        SUM(t.goles_favor) gf,
+        SUM(t.goles_contra) gc,
+        SUM(t.goles_favor - t.goles_contra) dg,
+        SUM(CASE 
+            WHEN t.goles_favor > t.goles_contra THEN 3
+            WHEN t.goles_favor = t.goles_contra THEN 1
+            ELSE 0
+        END) pts
+        FROM equipos e
+        JOIN grupos g ON e.id_grupo = g.id_grupo
+        JOIN (
+            SELECT p.equipo_local id_equipo, r.goles_local goles_favor, r.goles_visitante goles_contra
+            FROM partidos p
+            JOIN resultados r ON p.id_partido = r.id_partido
+            UNION ALL
+            SELECT p.equipo_visitante, r.goles_visitante, r.goles_local
+            FROM partidos p
+            JOIN resultados r ON p.id_partido = r.id_partido
+        ) t ON e.id_equipo = t.id_equipo
+        GROUP BY g.nombre, e.id_equipo, e.nombre
+        ORDER BY g.nombre, pts DESC, dg DESC, gf DESC;
+        `
+    }
+    const {rows} = await db.query(query)
+    return rows
 }
