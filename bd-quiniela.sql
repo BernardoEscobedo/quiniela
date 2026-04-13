@@ -146,6 +146,8 @@ JOIN equipos el on p.equipo_local = el.id_equipo
 JOIN equipos ev on p.equipo_visitante = ev.id_equipo
 WHERE p.id_partido = 2
 
+
+--Funcion para calcular puntos
 create or replace function calcular_puntos()
 returns trigger as
 $$
@@ -177,10 +179,11 @@ end;
 $$ language plpgsql;
 
 
-create trigger trigger_calcular_puntos
-after insert on resultados
-for each row
-execute function calcular_puntos();
+-- Lo usamos cubriendo INSERT y UPDATE
+CREATE TRIGGER trigger_calcular_puntos
+AFTER INSERT OR UPDATE ON resultados
+FOR EACH ROW
+EXECUTE FUNCTION calcular_puntos();
 
 
 --CONSULTA DE POSICIONES DE USUARIOS
