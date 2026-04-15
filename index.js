@@ -1,6 +1,7 @@
 import 'dotenv/config'
 import express from 'express'
 import userRouter from './routes/user.route.js'
+import equipoRouter from './routes/equipos.route.js'
 
 const app = express()
 
@@ -9,6 +10,7 @@ app.use(express.urlencoded({extended:true}))
 app.use(express.static('public'))
 
 app.use('/api/quiniela', userRouter )
+app.use('/api/quiniela/equipos', equipoRouter)
 
 const PORT = process.env.PORT || 3000
 
