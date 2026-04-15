@@ -6,4 +6,6 @@ const router = Router()
 
 router.post('/registrarequipo',verifyToken, equipoController.registrarEquipo)
 
+router.get('/equiposregistrados', verifyToken, verifyAdmin, equipoController.listarEquipos)
+
 export default router

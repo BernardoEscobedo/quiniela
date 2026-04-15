@@ -45,6 +45,20 @@ const registrarEquipo = async (req, res) => {
     }
 }
 
+const listarEquipos = async(req,res)=>{
+    try {
+        const equipos = await equipoModel.listarEquipos()
+        return res.json({ok:true, msg: equipos})
+    } catch (error) {
+        console.log(error)
+        return res.status(500).json({
+            ok:false,
+            msg:'Error en el servidor'
+        })
+    }
+}
+
 export const equipoController = {
-    registrarEquipo
+    registrarEquipo,
+    listarEquipos
 }
