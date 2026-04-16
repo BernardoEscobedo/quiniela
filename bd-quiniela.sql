@@ -146,6 +146,12 @@ JOIN equipos el on p.equipo_local = el.id_equipo
 JOIN equipos ev on p.equipo_visitante = ev.id_equipo
 WHERE p.id_partido = 2
 
+SELECT
+e.nombre,
+g.nombre AS grupo
+FROM equipos e 
+JOIN grupos g ON e.id_grupo = g.id_grupo
+WHERE e.id_grupo = 1
 
 --Funcion para calcular puntos
 create or replace function calcular_puntos()
