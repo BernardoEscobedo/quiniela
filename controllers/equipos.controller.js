@@ -88,6 +88,10 @@ const encontrarPorId = async(req,res)=>{
     }
 }
 
+const actualizarEquipo = async(req,res) => {
+    
+}
+
 export const equipoController = {
     registrarEquipo,
     listarEquipos,
