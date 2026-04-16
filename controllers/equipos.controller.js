@@ -45,7 +45,7 @@ const registrarEquipo = async (req, res) => {
     }
 }
 
-const listarEquipos = async(req,res)=>{
+const listarEquipos = async(res)=>{
     try {
         const equipos = await equipoModel.listarEquipos()
         return res.json({ok:true, msg: equipos})
@@ -58,7 +58,39 @@ const listarEquipos = async(req,res)=>{
     }
 }
 
+const encontrarPorNombre = async(req,res)=>{
+    try {
+            const {nombre} = req.params
+            const equipo = await equipoModel.encontrarPorNombre(nombre)
+
+            return res.json({ok:true, msg: equipo})
+    } catch (error) {
+        console.log(error)
+        return res.status(500).json({
+            ok:false,
+            msg:'Error en el servidor'
+        })
+    }
+}
+
+const encontrarPorId = async(req,res)=>{
+    try {
+            const {id_equipo} = req.params
+            const equipo = await equipoModel.encontrarPorId(id_equipo)
+
+            return res.json({ok:true, msg: equipo})
+    } catch (error) {
+        console.log(error)
+        return res.status(500).json({
+            ok:false,
+            msg:'Error en el servidor'
+        })
+    }
+}
+
 export const equipoController = {
     registrarEquipo,
-    listarEquipos
+    listarEquipos,
+    encontrarPorNombre,
+    encontrarPorId
 }
