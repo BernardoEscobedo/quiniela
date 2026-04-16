@@ -27,6 +27,27 @@ const listarEquipos = async () => {
     return rows
 }
 
+const encontrarPorNombre = async (nombre) => {
+    try {
+        const query = {
+            text: `
+            SELECT
+            e.nombre,
+            g.nombre AS grupo
+            FROM equipos e 
+            JOIN grupos g ON e.id_grupo = g.id_grupo
+            WHERE e.nombre = $1
+            `,
+            values: [nombre]
+        }
+        const { rows } = await db.query(query)
+        return rows.length > 0 ? rows[0] : null
+    } catch (error) {
+        console.error('Error al buscar equipo:', error)
+        throw error
+    }
+}
+
 const encontrarPorId = async (id_equipo) => {
     const query = {
         text: `
@@ -78,7 +99,7 @@ const actualizarEquipo = async(id_equipo, updateData)=>{
      return rows[0]
 }
 
-const encontrarPorGrupo = async (id_equipo) => {
+const encontrarPorGrupos = async (id_equipo) => {
     const query = {
         text: `
         SELECT
@@ -129,4 +150,14 @@ const tablaEquiposPorGrupo = async () => {
     }
     const {rows} = await db.query(query)
     return rows
+}
+
+export const equipoModel={
+    registrarEquipo,
+    listarEquipos,
+    encontrarPorId,
+    encontrarPorNombre,
+    actualizarEquipo,
+    encontrarPorGrupos,
+    tablaEquiposPorGrupo
 }

@@ -83,7 +83,7 @@ INSERT INTO grupos (nombre) VALUES ('A')
 --INSERT DE EQUIPOS
 INSERT INTO equipos (nombre, id_grupo) VALUES
 -- Grupo A (ID: 1)
-('México', 1), ('República Checa', 1), ('Sudáfrica', 1), ('Corea del Sur', 1)
+('México', 1), ('Sudáfrica', 1), ('República Checa', 1), ('Corea del Sur', 1)
 
 INSERT INTO partidos (id_jornada, equipo_local, equipo_visitante, fecha_partido, hora_partido) VALUES
 -- Grupo A y B
