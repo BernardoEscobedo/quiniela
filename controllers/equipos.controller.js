@@ -88,13 +88,65 @@ const encontrarPorId = async(req,res)=>{
     }
 }
 
-const actualizarEquipo = async(req,res) => {
-    
-}
+const actualizarEquipo = async (req, res) => {
+    try {
+        const { id_equipo } = req.params
+        const datoActualizado = req.body
 
+        if (!datoActualizado || Object.keys(datoActualizado).length === 0) {
+            return res.status(400).json({
+                ok: false,
+                msg: 'No se proporcionaron datos para actualizar'
+            })
+        }
+
+        const equipo = await equipoModel.encontrarPorId(id_equipo)
+        if (!equipo) {
+            return res.status(404).json({
+                ok: false,
+                msg: 'Equipo no encontrado'
+            })
+        }
+
+        if (datoActualizado.nombre && datoActualizado.nombre.trim() !== equipo.nombre) {
+            const equipoExistente = await equipoModel.encontrarPorNombre(datoActualizado.nombre.trim())
+            if (equipoExistente) {
+                return res.status(409).json({
+                    ok: false,
+                    msg: 'Ya existe un equipo con ese nombre'
+                })
+            }
+            datoActualizado.nombre = datoActualizado.nombre.trim()
+        }
+
+        const equipoActualizado = await equipoModel.actualizarEquipo(id_equipo, datoActualizado)
+
+        return res.json({
+            ok: true,
+            msg: 'Equipo actualizado correctamente',
+            equipo: equipoActualizado
+        })
+
+    } catch (error) {
+        console.error(error)
+
+        if (error.code === '23505') {
+            return res.status(409).json({
+                ok: false,
+                msg: 'El nombre del equipo ya está en uso'
+            })
+        }
+
+        return res.status(500).json({
+            ok: false,
+            msg: 'Error en el servidor'
+        })
+    }
+}
 export const equipoController = {
     registrarEquipo,
     listarEquipos,
     encontrarPorNombre,
-    encontrarPorId
+    encontrarPorId,
+    actualizarEquipo
 }
