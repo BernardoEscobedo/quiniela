@@ -16,8 +16,15 @@ const registrarUsuario = async ({nombre, apellido, correo, password_hash, id_rol
 const listarUsuarios = async () => {
     const query = {
         text:`
-        SELECT id_usuario, nombre, apellido, correo, id_role
-        FROM usuarios
+        SELECT 
+        u.id_usuario,
+        u.nombre,
+        u.apellido,
+        u.correo,
+        u.password_hash,
+        r.tipo as role
+        FROM usuarios u
+        JOIN roles r ON u.id_role = r.id_role
         `
     }
     const {rows} = await db.query(query)
@@ -28,9 +35,16 @@ const listarUsuarios = async () => {
 const encontrarPorCorreo = async(correo)=>{
     const query ={
         text: `
-        SELECT id_usuario, nombre, apellido, correo, password_hash, id_role
-        FROM usuarios
-        WHERE correo = $1
+        SELECT 
+        u.id_usuario,
+        u.nombre,
+        u.apellido,
+        u.correo,
+        u.password_hash,
+        r.tipo as role
+        FROM usuarios u
+        JOIN roles r ON u.id_role = r.id_role
+        WHERE u.correo = $1
         `,
         values: [correo]
     }
@@ -41,8 +55,16 @@ const encontrarPorCorreo = async(correo)=>{
 const encontrarPorId = async (id_usuario) => {
     const query = {
         text: `
-        SELECT id_usuario, nombre, apellido, correo, password_hash, id_role
-        FROM usuarios WHERE id_usuario = $1
+        SELECT 
+        u.id_usuario,
+        u.nombre,
+        u.apellido,
+        u.correo,
+        u.password_hash,
+        r.tipo as role
+        FROM usuarios u
+        JOIN roles r ON u.id_role = r.id_role
+        WHERE u.id_usuario = $1
         `,
         values: [id_usuario]
     }

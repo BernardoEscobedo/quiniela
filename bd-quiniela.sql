@@ -106,6 +106,17 @@ select *from jornadas
 select *from resultados
 select *from pronosticos
 
+SELECT 
+u.id_usuario,
+u.nombre,
+u.apellido,
+u.correo,
+u.password_hash,
+r.tipo as role
+FROM usuarios u
+JOIN roles r ON u.id_role = r.id_role
+WHERE u.correo = 'PEPE@CHANITOS.COM'
+
 select
 e.nombre,
 g.nombre as grupo
