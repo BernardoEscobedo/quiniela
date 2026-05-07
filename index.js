@@ -14,7 +14,7 @@ app.use(express.json())
 app.use(express.urlencoded({extended:true}))
 app.use(express.static('public'))
 
-app.use('/api/quiniela', userRouter)
+app.use('/api/quiniela/usuarios', userRouter)
 app.use('/api/quiniela/equipos', equipoRouter)
 app.use('/api/quiniela/grupos', grupoRouter)
 app.use('/api/quiniela/jornadas', jornadaRouter)
