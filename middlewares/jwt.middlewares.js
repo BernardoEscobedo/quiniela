@@ -13,8 +13,9 @@ export const verifyToken = (req, res, next) => {
     console.log({token})
 
     try {
-        const {correo, id_role} = jwt.verify(token, process.env.JWT_SECRET)
+        const {id_usuario, correo, id_role} = jwt.verify(token, process.env.JWT_SECRET)
         console.log(correo)
+        req.id_usuario = id_usuario
         req.correo = correo
         req.id_role = id_role
         next()

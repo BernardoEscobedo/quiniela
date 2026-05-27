@@ -28,7 +28,7 @@ const registrarUsuario = async (req,res) =>{
             const hashedPassword = await bcrypt.hash(password_hash, salt)
 
             const usuarioNuevo = await userModel.registrarUsuario({nombre, apellido, correo, password_hash:hashedPassword, id_role})
-            const token = jwt.sign({correo: usuarioNuevo.correo, id_role: usuarioNuevo.id_role},
+            const token = jwt.sign({id_usuario: usuarioNuevo.id_usuario, correo: usuarioNuevo.correo, id_role: usuarioNuevo.id_role},
             process.env.JWT_SECRET,
             {
                 expiresIn:"1h"
@@ -76,7 +76,7 @@ const loginUsuario = async(req,res)=>{
             return res.status(401).json({ok: false, msg:"Contraseña incorrecta"})
         }
 
-        const token = jwt.sign({correo: usuario.correo, id_role: usuario.id_role},
+        const token = jwt.sign({id_usuario: usuario.id_usuario, correo: usuario.correo, id_role: usuario.id_role},
             process.env.JWT_SECRET,
             {
                 expiresIn:"2h"
