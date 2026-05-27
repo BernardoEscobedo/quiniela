@@ -17,6 +17,9 @@ const registrarEquipo = async (req, res) => {
                 msg: `Faltan los siguientes campos: ${missingFields.join(', ')}`
             })
         }
+        
+        const grupo = await grupoModel.encontrarPorId(id_grupo)
+        if (!grupo) return res.status(404).json({ ok: false, msg: 'El grupo no existe' })
 
         const equipoNuevo = await equipoModel.registrarEquipo({ 
             nombre: nombre.trim(), 
@@ -45,7 +48,7 @@ const registrarEquipo = async (req, res) => {
     }
 }
 
-const listarEquipos = async(res)=>{
+const listarEquipos = async(req,res)=>{
     try {
         const equipos = await equipoModel.listarEquipos()
         return res.json({ok:true, msg: equipos})

@@ -1,7 +1,6 @@
 import bcrypt from 'bcryptjs'
 import jwt from "jsonwebtoken"
 import {userModel} from '../models/user.model.js'
-import { request } from 'express'
 
 const registrarUsuario = async (req,res) =>{
     try {
