@@ -41,6 +41,7 @@ const encontrarPorCorreo = async(correo)=>{
         u.apellido,
         u.correo,
         u.password_hash,
+        u.id_role,
         r.tipo as role
         FROM usuarios u
         JOIN roles r ON u.id_role = r.id_role
@@ -61,6 +62,7 @@ const encontrarPorId = async (id_usuario) => {
         u.apellido,
         u.correo,
         u.password_hash,
+        u.id_role,
         r.tipo as role
         FROM usuarios u
         JOIN roles r ON u.id_role = r.id_role
