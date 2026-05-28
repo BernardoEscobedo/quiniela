@@ -25,6 +25,7 @@ const listarUsuarios = async () => {
         r.tipo as role
         FROM usuarios u
         JOIN roles r ON u.id_role = r.id_role
+        ORDER BY (u.id_usuario)
         `
     }
     const {rows} = await db.query(query)

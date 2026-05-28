@@ -1,6 +1,7 @@
 import bcrypt from 'bcryptjs'
 import jwt from "jsonwebtoken"
 import {equipoModel} from '../models/equipos.model.js'
+import {grupoModel} from '../models/grupos.model.js'
 import { request } from 'express'
 
 const registrarEquipo = async (req, res) => {
