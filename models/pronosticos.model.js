@@ -64,6 +64,20 @@ const encontrarPorId = async (id_pronostico) => {
     return rows[0]
 }
 
+// ✅ Nuevo — verifica que el pronóstico exista Y pertenezca al usuario
+const encontrarPorIdYUsuario = async (id_pronostico, id_usuario) => {
+    const query = {
+        text: `
+        SELECT id_pronostico, id_usuario, id_partido, pronostico, goles_local, goles_visitante, puntos
+        FROM pronosticos
+        WHERE id_pronostico = $1 AND id_usuario = $2
+        `,
+        values: [id_pronostico, id_usuario]
+    }
+    const {rows} = await db.query(query)
+    return rows[0]
+}
+
 const listarPorUsuario = async (id_usuario) => {
     const query = {
         text: `
@@ -179,6 +193,7 @@ export const pronosticoModel = {
     registrarPronostico,
     listarPronosticos,
     encontrarPorId,
+    encontrarPorIdYUsuario,
     listarPorUsuario,
     listarPorPartido,
     encontrarPronosticoExistente,

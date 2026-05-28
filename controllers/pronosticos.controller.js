@@ -4,7 +4,7 @@ import {partidoModel} from '../models/partidos.model.js'
 const registrarPronostico = async (req, res) => {
     try {
         const {id_partido, pronostico, goles_local, goles_visitante} = req.body
-        const id_usuario = req.id_usuario // viene del token
+        const id_usuario = req.id_usuario
 
         const missingFields = []
         if (!id_partido) missingFields.push('id_partido')
@@ -89,7 +89,7 @@ const encontrarPorId = async (req, res) => {
 
 const listarMisPronosticos = async (req, res) => {
     try {
-        const id_usuario = req.id_usuario // viene del token
+        const id_usuario = req.id_usuario
         const pronosticos = await pronosticoModel.listarPorUsuario(id_usuario)
         return res.json({ok: true, msg: pronosticos})
     } catch (error) {
@@ -132,7 +132,7 @@ const actualizarPronostico = async (req, res) => {
     try {
         const {id_pronostico} = req.params
         const datoActualizado = req.body
-        const id_usuario = req.id_usuario // viene del token
+        const id_usuario = req.id_usuario
 
         if (!datoActualizado || Object.keys(datoActualizado).length === 0) {
             return res.status(400).json({
@@ -141,9 +141,19 @@ const actualizarPronostico = async (req, res) => {
             })
         }
 
-        const pronostico = await pronosticoModel.encontrarPorId(id_pronostico)
+        // ✅ Verifica que el pronóstico exista Y pertenezca al usuario autenticado
+        const pronostico = await pronosticoModel.encontrarPorIdYUsuario(id_pronostico, id_usuario)
+
         if (!pronostico) {
-            return res.status(404).json({ok: false, msg: 'Pronóstico no encontrado'})
+            // Distinguimos si no existe o si no le pertenece
+            const existe = await pronosticoModel.encontrarPorId(id_pronostico)
+            if (!existe) {
+                return res.status(404).json({ok: false, msg: 'Pronóstico no encontrado'})
+            }
+            return res.status(403).json({
+                ok: false,
+                msg: 'No tienes permiso para modificar este pronóstico'
+            })
         }
 
         if (datoActualizado.pronostico) {
