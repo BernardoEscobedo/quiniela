@@ -4,6 +4,7 @@ import {equipoModel} from '../models/equipos.model.js'
 import {grupoModel} from '../models/grupos.model.js'
 import { request } from 'express'
 
+//REGISTRO DE EQUIPOS
 const registrarEquipo = async (req, res) => {
     try {
         const { nombre, id_grupo } = req.body
