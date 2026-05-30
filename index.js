@@ -7,8 +7,12 @@ import jornadaRouter from './routes/jornadas.route.js'
 import partidoRouter from './routes/partidos.route.js'
 import resultadoRouter from './routes/resultados.route.js'
 import pronosticoRouter from './routes/pronosticos.route.js'
+import cors from 'cors'
 
 const app = express()
+app.use(cors({
+    origin: 'http://localhost:5173'
+}))
 
 app.use(express.json())
 app.use(express.urlencoded({extended:true}))
