@@ -102,16 +102,22 @@ const loginUsuario = async(req,res)=>{
 
 const perfilUsuario = async(req,res)=>{
     try {
+
         const usuario = await userModel.encontrarPorCorreo(req.correo)
+
         return res.json({
             ok:true,
             usuario:{
+                id_usuario: usuario.id_usuario,
+                nombre: usuario.nombre,
+                apellido: usuario.apellido,
                 correo: usuario.correo,
-               id_role: usuario.id_role
+                id_role: usuario.id_role
             }
         })
+
     } catch (error) {
-        console.log(error)
+
         return res.status(500).json({
             ok:false,
             msg:'Error en el servidor'

@@ -114,7 +114,7 @@ u.correo,
 u.password_hash,
 r.tipo as role
 FROM usuarios u
-JOIN roles r ON u.id_role = r.id_role
+JOIN roles r ON u.id_role = r.id_role order by(u.id_usuario)
 WHERE u.correo = 'PEPE@CHANITOS.COM'
 
 select
