@@ -7,6 +7,7 @@ import jornadaRouter from './routes/jornadas.route.js'
 import partidoRouter from './routes/partidos.route.js'
 import resultadoRouter from './routes/resultados.route.js'
 import pronosticoRouter from './routes/pronosticos.route.js'
+import dashboardRoutes from './routes/dashboard.routes.js'
 import cors from 'cors'
 
 const app = express()
@@ -25,6 +26,7 @@ app.use('/api/quiniela/jornadas', jornadaRouter)
 app.use('/api/quiniela/partidos', partidoRouter)
 app.use('/api/quiniela/resultados', resultadoRouter)
 app.use('/api/quiniela/pronosticos', pronosticoRouter)
+app.use('/api/dashboard', dashboardRoutes)
 
 const PORT = process.env.PORT || 3000
 
