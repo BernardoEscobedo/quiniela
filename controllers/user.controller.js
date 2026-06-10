@@ -139,7 +139,7 @@ const listarUsuarios = async(req,res)=>{
     }
 }
 
-const entontrarPorId = async(req,res) => {
+const encontrarPorId = async(req,res) => {
     try {
         const {id_usuario} = req.params
         const usuario = await userModel.encontrarPorId(id_usuario)
@@ -208,7 +208,7 @@ const actualizarUsuario = async(req,res) => {
 export const userController = {
     registrarUsuario,
     loginUsuario,
-    entontrarPorId,
+    encontrarPorId,
     perfilUsuario,
     listarUsuarios,
     actualizarUsuario
