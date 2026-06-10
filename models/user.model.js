@@ -22,9 +22,8 @@ const listarUsuarios = async () => {
         u.apellido,
         u.correo,
         u.password_hash,
-        r.tipo as role
+        u.id_role
         FROM usuarios u
-        JOIN roles r ON u.id_role = r.id_role
         ORDER BY (u.id_usuario)
         `
     }
