@@ -16,9 +16,22 @@ const registrarJornada = async ({nombre, estado, fecha_inicio, fecha_fin}) => {
 const listarJornadas = async () => {
     const query = {
         text: `
-        SELECT id_jornada, nombre, estado, fecha_inicio, fecha_fin
-        FROM jornadas
-        ORDER BY fecha_inicio
+        SELECT
+        j.id_jornada,
+        j.nombre,
+        j.fecha_inicio,
+        j.fecha_fin,
+        j.estado,
+        COUNT(p.id_partido) partidos
+        FROM jornadas j
+        LEFT JOIN partidos p
+            ON j.id_jornada = p.id_jornada
+        GROUP BY
+        j.id_jornada,
+        j.nombre,
+        j.fecha_inicio,
+        j.fecha_fin,
+        j.estado;
         `
     }
     const {rows} = await db.query(query)
