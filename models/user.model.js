@@ -3,7 +3,7 @@ import {db} from '../database/connection.database.js'
 const registrarUsuario = async ({nombre, apellido, correo, password_hash, id_role})=>{
     const query={
         text:`
-            INSERT INTO usuarios (nombre, apellido, correo, password_hash, id_role)
+            INSERT INTO dbpruebas.usuarios (nombre, apellido, correo, password_hash, id_role)
             VALUES ($1,$2,$3,$4,$5)
             RETURNING id_usuario, nombre, apellido, correo, password_hash, id_role
         `,
