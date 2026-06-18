@@ -9,9 +9,12 @@ const db = new Pool({
     database: process.env.PGDATABASE,
     user: process.env.PGUSER,
     password: process.env.PGPASSWORD,
-    allowExitOnIdle: true
+    allowExitOnIdle: true,
+    ssl: {
+        rejectUnauthorized: false
+    },
+    options: '-c search_path=dbpruebas'
 });
-
 //verificar la conexion
 try{
     await db.query('SELECT NOW()')
