@@ -17,6 +17,7 @@ const listarEquipos = async () => {
     const query = {
         text:`
         SELECT
+        e.id_equipo,
         e.nombre,
         g.nombre AS grupo
         FROM equipos e 
